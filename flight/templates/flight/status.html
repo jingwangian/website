@@ -1,0 +1,10 @@
+<h1>This is the task_status page</h1>
+{% if status_list %}
+	<ul>
+		{% for status in status_list %}
+		<li>{{status}}</li>
+		{% endfor %}
+	<ul>
+{% else %}
+	<p>No status informations are available.</p>
+{% endif%}
