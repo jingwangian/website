@@ -6,7 +6,13 @@ from .models import FlightTaskStatus
 
 # Create your views here.
 def index(request):
-    return HttpResponse('You are visiting the fight website')
+    template = loader.get_template('flight/index.html')
+    context = {
+        'status_list': None
+        }
+    
+    return HttpResponse(template.render(context,request))
+#     return HttpResponse('You are visiting the fight website')
 
 def status(request):
     status_list = FlightTaskStatus.objects.all()
