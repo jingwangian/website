@@ -1,0 +1,32 @@
+{% extends "flight/base.html" %}
+
+{% block title %}Route informations{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+  <h2>The route informations</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Machine Name</th>
+        <th>From City Name</th>
+        <th>To City Name</th>
+        <th>Price table name</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for route in route_list %}
+		<tr>
+		<td>{{route.machine}}</td>
+		<td>{{route.from_city_name}}</td>
+		<td>{{route.to_city_name}}</td>
+		<td>{{route.table_name}}</td>
+		</tr>
+	{% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 from django.template import loader
 
-from .models import FlightTaskStatus
+from .models import Route
 
 import datetime
 
@@ -34,6 +34,19 @@ def status(request):
     
     context = {
         'status_list': status_list
+        }
+    
+    return HttpResponse(template.render(context,request))
+
+def route(request):
+    
+    route_list = Route.objects.all()
+    
+    template = loader.get_template('flight/route.html')
+
+    
+    context = {
+        'route_list': route_list
         }
     
     return HttpResponse(template.render(context,request))

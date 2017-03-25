@@ -37,3 +37,16 @@ class FlightTaskStatus(models.Model):
         ret_str = ret_str+' , end time : '+self.task_finished_time.strftime('%H:%M')
         
         return ret_str
+    
+class Route(models.Model):
+    id = models.IntegerField(primary_key=True)
+    machine = models.CharField(max_length=256, blank=True, null=True)
+    from_city_id = models.IntegerField(blank=True, null=True)
+    to_city_id = models.IntegerField(blank=True, null=True)
+    from_city_name = models.CharField(max_length=256, blank=True, null=True)
+    to_city_name = models.CharField(max_length=256, blank=True, null=True)
+    table_name = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'route'
