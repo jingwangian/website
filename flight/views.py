@@ -4,6 +4,8 @@ from django.template import loader
 
 from .models import FlightTaskStatus
 
+import datetime
+
 # Create your views here.
 def index(request):
     template = loader.get_template('flight/index.html')
@@ -15,9 +17,20 @@ def index(request):
 #     return HttpResponse('You are visiting the fight website')
 
 def status(request):
-    status_list = FlightTaskStatus.objects.all()
+#     status_list = FlightTaskStatus.objects.all()
+
+    date_str = datetime.date.today().strftime('%Y-%m-%d')
+#     date_str = '2017-03-08'
+    file_name = '''/db/github/flight/expedia/log/result_'''+date_str+'.log' 
+    
+    status_list = []
     
     template = loader.get_template('flight/status.html')
+    
+    with open(file_name) as f:
+        for line in f.readlines()[-30:-1]:
+            line = line.strip()
+            status_list.append(line)
     
     context = {
         'status_list': status_list
