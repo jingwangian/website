@@ -1,14 +1,14 @@
 {% extends "flight/base.html" %}
 
-{% block title %}My amazing blog{% endblock %}
+{% block title %}EC2 status{% endblock %}
 
 {% block content %}
 
 <h1>Flight crawling task running status</h1>
-{% if status_list %}
+{% if ec2_list %}
 	<ul>
-		{% for status in status_list %}
-		<li>{{status}}</li>
+		{% for ec2 in ec2_list %}
+		<li>{{ec2.name}} -- {{ec2.status}}</li>
 		{% endfor %}
 	<ul>
 {% else %}

@@ -1,9 +1,11 @@
-# from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 from django.http import HttpResponse
 from django.template import loader
 
-from .models import Route
+from .models import EC2Info
 
+from .rpcclient import EC2MonitorClient
 import datetime
 
 # Create your views here.
@@ -14,39 +16,36 @@ def index(request):
         }
     
     return HttpResponse(template.render(context,request))
-#     return HttpResponse('You are visiting the fight website')
 
-def status(request):
-#     status_list = FlightTaskStatus.objects.all()
+def all_ec2_status(request):
+    ec2_list = EC2Info.objects.all()
 
-    date_str = datetime.date.today().strftime('%Y-%m-%d')
-#     date_str = '2017-03-08'
-    file_name = '''/db/github/flight/expedia/log/result_'''+date_str+'.log' 
+    ec2_status_list = []
     
-    status_list = []
+    for ec2 in ec2_list:
+        ec2_url='http://{}:{}'.format(ec2.public_dns,'8989')
+        print(ec2_url)
+        
+        ec2_mc = EC2MonitorClient(ec2_url)
+        if ec2_mc.connect() == False:
+            ec2.status='unknown'
+            continue
+            
+        if ec2_mc.check_flight_task_status() == True:
+            ec2.status = 'running'
+            print('{} is running'.format(ec2.name))
+        else:
+            ec2.status = 'not running'
+            print('{} is not running'.format(ec2.name))
+
+        break
+        
     
-    template = loader.get_template('flight/status.html')
-    
-    with open(file_name) as f:
-        for line in f.readlines()[-30:-1]:
-            line = line.strip()
-            status_list.append(line)
-    
+#     template = loader.get_template('flight/status.html')
+   
     context = {
-        'status_list': status_list
+        'ec2_list': ec2_list
         }
     
-    return HttpResponse(template.render(context,request))
-
-def route(request):
-    
-    route_list = Route.objects.all()
-    
-    template = loader.get_template('flight/route.html')
-
-    
-    context = {
-        'route_list': route_list
-        }
-    
-    return HttpResponse(template.render(context,request))
+#     return HttpResponse(template.render(context,request))
+    return render(request, 'flight/status.html', context)
