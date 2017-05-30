@@ -37,6 +37,19 @@ class EC2MonitorClient():
         else:
             return False
         
+    def get_task_status(self):
+        """
+        Return the detail task status as a dict
+        dict['total_task_num':xxx,'finished_task_num':yyy]
+        """
+        task_dict = None
+        try:
+            task_dict = self.server_proxy.get_task_status(self.name,self.password)
+        except ConnectionRefusedError as e:
+            return None            
+        
+        return task_dict
+    
     def get_flight_results_staus(self):
         """
         Return the finished number of results

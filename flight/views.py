@@ -34,11 +34,19 @@ def all_ec2_status(request):
         if ec2_mc.check_flight_task_status() == True:
             ec2.status = 'running'
             print('{} is running'.format(ec2.name))
+            task_dict = ec2_mc.get_task_status()
+            if task_dict is not None:
+                ec2.total_task_num = task_dict['total_task_num']
+                ec2.finished_task_num = task_dict['finished_task_num']
+            else:
+                ec2.total_task_num = 0
+                ec2.finished_task_num = 0
+                
         else:
             ec2.status = 'not running'
             print('{} is not running'.format(ec2.name))
 
-        break
+#         break
         
     
 #     template = loader.get_template('flight/status.html')

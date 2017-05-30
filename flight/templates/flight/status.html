@@ -8,7 +8,11 @@
 {% if ec2_list %}
 	<ul>
 		{% for ec2 in ec2_list %}
-		<li>{{ec2.name}} -- {{ec2.status}}</li>
+		{% if ec2.status == "running" %}
+		  <li>{{ec2.name}} -- {{ec2.status}} : total_tasks[{{ec2.total_task_num}}] -- finished_tasks[{{ec2.finished_task_num}}]</li>
+		{% else %}
+		  <li>{{ec2.name}} -- {{ec2.status}}</li>
+		{% endif%}
 		{% endfor %}
 	<ul>
 {% else %}
