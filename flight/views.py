@@ -47,14 +47,10 @@ def all_ec2_status(request):
             ec2.status = 'not running'
             print('{} is not running'.format(ec2.name))
 
-#         break
-        
-    
 #     template = loader.get_template('flight/status.html')
    
     context = {
         'ec2_list': ec2_list
         }
     
-#     return HttpResponse(template.render(context,request))
     return render(request, 'flight/status.html', context)
