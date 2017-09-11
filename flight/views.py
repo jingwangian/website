@@ -6,7 +6,7 @@ from django.template import loader
 from .models import EC2Info
 
 from .rpcclient import EC2MonitorClient
-import datetime
+from .statistic import get_estimated_time 
 
 # Create your views here.
 def index(request):
@@ -38,6 +38,7 @@ def all_ec2_status(request):
             if task_dict is not None:
                 ec2.total_task_num = task_dict['total_task_num']
                 ec2.finished_task_num = task_dict['finished_task_num']
+                ec2.finish_time = get_estimated_time(ec2.total_task_num,ec2.finished_task_num)
             else:
                 ec2.total_task_num = 0
                 ec2.finished_task_num = 0
@@ -46,14 +47,10 @@ def all_ec2_status(request):
             ec2.status = 'not running'
             print('{} is not running'.format(ec2.name))
 
-#         break
-        
-    
 #     template = loader.get_template('flight/status.html')
    
     context = {
         'ec2_list': ec2_list
         }
     
-#     return HttpResponse(template.render(context,request))
     return render(request, 'flight/status.html', context)

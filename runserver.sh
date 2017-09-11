@@ -7,5 +7,4 @@ then
     cp website/local_settings.py website/settings.py
 fi
 
-python manage.py runserver 127.0.0.1:8000
-
+sudo python3 manage.py runserver 0.0.0.0:80
