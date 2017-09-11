@@ -10,3 +10,4 @@ class EC2Info(models.Model):
     
     def __str__(self):
         return self.name+' -- '+self.public_dns
+    

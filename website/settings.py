@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 INSTALLED_APPS = [
     'flight.apps.FlightConfig',
+    'flightmanage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,17 +81,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'expedia',
-#         'USER': 'wangj',
-#         'PASSWORD': '12345',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
 
 
 # Password validation
