@@ -37,19 +37,27 @@ class RouteTask(models.Model):
     TASK_RUNNING_STATE_CHOICES = (
     ('idle', 'not start'),
     ('running', 'running'),
-    ('done', 'finished'),
+    ('finished', 'finished'),
 )
     route = models.ForeignKey('Route')
     node_name = models.CharField(max_length=50,null=True,blank=True)
     task_status = models.CharField(max_length=10,choices=TASK_RUNNING_STATE_CHOICES,default='idle')
-    task_date = models.DateField(auto_now_add=True)
-    start_time = models.TimeField(auto_now_add=True)
-    end_time = models.TimeField(auto_now_add=True)
+    task_date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
     
     def create_today_task(self):
         route_list = Route.objects.all()
         [print(route) for route in route_list]
-    
+        
+    def __str__(self):
+        return '{}--{}--{}--{}--{}--{}'.format(self.route.id,
+                                               self.node_name, 
+                                               self.task_status, 
+                                               self.task_date,
+                                               self.start_time,
+                                               self.end_time)
+        
 class RouteTaskHistory(models.Model):
     TASK_RUNNING_STATE_CHOICES = (
     ('idle', 'not start'),
